@@ -1,1 +1,3 @@
-# api-noticias-ddd
+# Documentação da API de Notícias DDD
+
+### ⏳ ***Em Desenvolvimento...***
