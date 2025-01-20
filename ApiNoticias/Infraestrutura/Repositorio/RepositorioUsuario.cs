@@ -1,9 +1,11 @@
 ﻿using Dominio.Interfaces;
 using Entidades.Entidades;
+using Entidades.Enums;
 using Infraestrutura.Configuracoes;
 using Infraestrutura.Repositorio.Genericos;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Infraestrutura.Repositorio
@@ -29,7 +31,8 @@ namespace Infraestrutura.Repositorio
                             Email = email,
                             PasswordHash = senha,
                             Idade = idade,
-                            Celular = celular
+                            Celular = celular,
+                            Tipo = ETipoUsuario.Comum
                         });
 
                     await banco.SaveChangesAsync();
@@ -41,6 +44,24 @@ namespace Infraestrutura.Repositorio
             }
 
             return true;
+        }
+
+        public async Task<bool> ExisteUsuario(string email, string senha)
+        {
+            try
+            {
+                using (var banco = new Contexto(_optionsBuilder))
+                {
+                    return await banco.ApplicationUser
+                        .Where(u => u.Email.Equals(email) && u.PasswordHash.Equals(senha))
+                        .AsNoTracking()
+                        .AnyAsync();
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }
