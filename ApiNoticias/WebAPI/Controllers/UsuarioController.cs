@@ -44,13 +44,15 @@ namespace WebAPI.Controllers
             var resultado = await _IAplicacaoUsuario.ExisteUsuario(login.email, login.senha);
             if (resultado)
             {
+                var idUsuario = await _IAplicacaoUsuario.RetornaIdUsuario(login.email);
+
                 var token = new TokenJWTBuilder()
-                    .AddSecurityKey(JwtSecurityKey.Create("Secret_key-12345678"))
+                    .AddSecurityKey(JwtSecurityKey.Create("Secret_Key-12345678"))
                     .AddSubject("Empresa - Lucas News API")
                     .AddIssuer("Teste.Securiry.Bearer")
                     .AddAudience("Teste.Securiry.Bearer")
-                    .AddClaim("UsuarioAPINumero", "1")
-                    .AddExpiry(5)
+                    .AddClaim("idUsuario", idUsuario)
+                    .AddExpiry(15) // 15 minutos
                     .Builder();
 
                 return Ok(token.value);
@@ -95,13 +97,15 @@ namespace WebAPI.Controllers
 
             if (resultado.Succeeded)
             {
+                var idUsuario = await _IAplicacaoUsuario.RetornaIdUsuario(login.email);
+
                 var token = new TokenJWTBuilder()
-                    .AddSecurityKey(JwtSecurityKey.Create("Secret_key-12345678"))
+                    .AddSecurityKey(JwtSecurityKey.Create("Secret_Key-12345678"))
                     .AddSubject("Empresa - Lucas News API")
                     .AddIssuer("Teste.Securiry.Bearer")
                     .AddAudience("Teste.Securiry.Bearer")
-                    .AddClaim("UsuarioAPINumero", "1")
-                    .AddExpiry(5)
+                    .AddClaim("idUsuario", idUsuario)
+                    .AddExpiry(15) // 15 minutos
                     .Builder();
 
                 return Ok(token.value);

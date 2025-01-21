@@ -26,7 +26,7 @@ namespace Aplicacao.Aplicacao
 
         public async Task AtualizaNoticia(Noticia noticia)
         {
-            await _IServicoNoticia.AdicionaNoticia(noticia);
+            await _IServicoNoticia.AtualizaNoticia(noticia);
         }
 
         public async Task<List<Noticia>> ListarNoticiasAtivas()
